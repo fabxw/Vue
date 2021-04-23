@@ -1,24 +1,12 @@
 # provavue
 
-## Project setup
+## instalação do vue
 ```
-npm install
+npm install vue
 ```
 
-### Compiles and hot-reloads for development
+### Ativar servidor
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

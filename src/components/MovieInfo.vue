@@ -1,11 +1,7 @@
 <template>
   <div>
     <menu-bar />
-    <article class="message is-dark">
-      Title {{ movies.title }}
-      <br />
-      Overview {{ movie.overview }}
-    </article>
+    <article class="message is-dark">Title Overview</article>
   </div>
 </template>
 

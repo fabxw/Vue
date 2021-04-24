@@ -1,18 +1,29 @@
 <template>
   <div>
-    <div class="columns" v-for="(movies, index) in chunkedMovies" :key="index">
-      <div class="column" v-for="(movie, index) in movies" :key="index">
+    <div
+      class="columns"
+      v-for="(movies, index1) in moviesChunked"
+      :key="index1"
+    >
+      <div class="column" v-for="(movie, index2) in movies" :key="index2">
         <div
           id="column-area"
-          @click="info"
-          :movies="movies"
+          @click="info(moviesChunked[index1][index2].id)"
           class="box box-shadow"
         >
           <div>
-            <p id="title" class="title">{{ movie.title }}</p>
+            <p id="title" class="title">
+              <router-link
+                :to="{
+                  name: 'info',
+                  params: { id: moviesChunked[index1][index2].id },
+                }"
+              ></router-link>
+              {{ movie.title }} {{ moviesChunked[index1][index2].id }}
+            </p>
           </div>
           <div>
-            <img id="img" :src="baseImg + movie.poster_path" alt="imagem" />
+            <img id="img" :src="urlBase + movie.poster_path" alt="imagem" />
           </div>
         </div>
       </div>
@@ -21,50 +32,21 @@
 </template>
 
 <script>
-import axios from "axios";
-import chunk from "chunk";
+//import MovieInfo from "./MovieInfo";
 
 export default {
-  data() {
-    return {
-      baseImg: "https://image.tmdb.org/t/p/w220_and_h330_face",
-      movies: {
-        title: "",
-        poster_path: "",
-        overview: "",
-        vote_average: "",
-        vote_count: "",
-        year: "",
-      },
-    };
+  components: {
+    //   MovieInfo,
   },
-  created: function (count) {
-    axios
-      .get(
-        "https://api.themoviedb.org/3/movie/popular?api_key=a05753df84a5d116151e44fa402b53ba&language=pt-BR&page=1"
-      )
-      .then((res) => {
-        console.log("lista de filmes coletada");
-        this.movies = res.data.results;
-        console.log(this.movies);
-        this.title = this.movies[count].title;
-        this.poster_path = this.movies[count].poster_path;
-        this.overview = this.movies[count].overview;
-        this.vote_average = this.movies[count].vote_average;
-        this.vote_count = this.movies[count].vote_count;
+  props: {
+    moviesChunked: Array,
+    urlBase: String,
+  },
 
-        console.log(this.movies);
-      });
-  },
-  computed: {
-    chunkedMovies() {
-      return chunk(this.movies, 5);
-    },
-  },
   methods: {
-    info: function () {
-      this.$router.push("/info");
-      //this.$emit("movies-info", this.movies);
+    info: function (msg) {
+      this.$router.push("/info/" + msg);
+      //console.log(msg);
     },
   },
 };

@@ -14,9 +14,16 @@ const router = new VueRouter({
             name: "home",
 
         }, {
-            path: '/info',
+            path: '/info/:id',
             component: MovieInfo,
             name: "info",
+
+
+            props: {
+                default: true,
+                // function mode, more about it below
+                sidebar: route => ({ search: route.query.id })
+            }
 
         }
 

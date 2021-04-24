@@ -1,5 +1,6 @@
 <template>
   <div>
+    <menu-bar />
     <div class="box">
       <article class="media">
         <div id="box" class="media-left">
@@ -8,31 +9,40 @@
           </figure>
         </div>
         <div class="media-content">
-          <div id="name" class="content">
-            <h3>
+          <div class="content">
+            <div id="bar-progress">
+              <progress
+                id="bar"
+                class="progress is-normal"
+                :value="this.movie.vote_average * 10"
+                max="100"
+              ></progress>
+              <small id="bar-info"
+                >Avaliação dos usuários <strong> &#183; </strong>
+                {{ this.movie.vote_average * 10 }}%
+              </small>
+            </div>
+            <h1 id="name">
               <strong>{{ this.movie.title }}</strong>
               <small> ({{ this.movie.year }}) </small>
-            </h3>
+            </h1>
           </div>
-          <nav class="level is-mobile">
-            <div class="level-left">
-              <a class="level-item" aria-label="reply">
-                <span class="icon is-small">
-                  <i class="fas fa-reply" aria-hidden="true"></i>
-                </span>
-              </a>
-              <a class="level-item" aria-label="retweet">
-                <span class="icon is-small">
-                  <i class="fas fa-retweet" aria-hidden="true"></i>
-                </span>
-              </a>
-              <a class="level-item" aria-label="like">
-                <span class="icon is-small">
-                  <i class="fas fa-heart" aria-hidden="true"></i>
-                </span>
-              </a>
-            </div>
-          </nav>
+          <div id="sub" class="content">
+            <span>{{ new Date(this.movie.date).toLocaleDateString() }}</span>
+            <strong> &#183; </strong>
+
+            <span v-for="(genre, index) in this.movie.genres" :key="index">
+              {{ genre.name }}
+              <strong> &#183; </strong>
+            </span>
+            <span> {{ time(this.movie.runtime) }}</span>
+          </div>
+          <div id="overview">
+            <strong>Sinopse</strong>
+          </div>
+          <div>
+            <p id="overview">{{ this.movie.overview }}</p>
+          </div>
         </div>
       </article>
     </div>
@@ -40,11 +50,12 @@
 </template>
 
 <script>
-//import MenuBar from "./MenuBar";
-//import CardMovies from "./CardsMovies";
-//import VueRouter from "vue-router";
 import axios from "axios";
+import MenuBar from "./MenuBar.vue";
 export default {
+  components: {
+    MenuBar,
+  },
   name: "MovieInfo",
 
   data() {
@@ -57,6 +68,9 @@ export default {
         vote_average: "",
         vote_count: "",
         year: "",
+        date: "",
+        genres: Array,
+        runtime: Number,
       },
 
       info: {
@@ -84,12 +98,20 @@ export default {
         this.movie.vote_average = res.data.vote_average;
         this.movie.vote_count = res.data.vote_count;
         this.movie.year = res.data.release_date.substr(0, 4);
+        this.movie.date = res.data.release_date;
+        this.movie.genres = res.data.genres;
+        this.movie.runtime = res.data.runtime;
+
+        console.log(this.movie.runtime);
       });
   },
 
-  components: {
-    // MenuBar,
-    // CardMovies,
+  methods: {
+    time: function (time) {
+      var hours = Math.floor(time / 60);
+      var minutes = time % 60;
+      return hours + "h " + minutes + "m";
+    },
   },
 };
 </script>
@@ -103,9 +125,53 @@ export default {
 #image {
   height: 120% !important;
   widows: 120%;
+  border-radius: 6px !important;
 }
 #name {
   text-align: left !important;
-  padding-top: 12%;
+  padding-top: 0%;
+  margin: 0;
+}
+
+#sub {
+  text-align: left !important;
+  padding-left: 1%;
+  padding-top: 0%;
+}
+
+#overview {
+  text-align: initial;
+  margin-right: 25%;
+}
+
+#overview > strong {
+  font-size: 1.2rem !important;
+}
+
+.content {
+  padding-top: 8%;
+  margin-bottom: 0% !important;
+}
+
+#bar {
+  margin-bottom: 0%;
+}
+
+#name > #bar-info {
+  margin-bottom: 5%;
+  font-size: 1rem;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+#bar-progress {
+  padding-bottom: 3%;
+  width: 70%;
+}
+
+h1 {
+  margin: 0 !important;
 }
 </style>

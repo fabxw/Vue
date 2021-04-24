@@ -19,7 +19,7 @@
                   params: { id: moviesChunked[index1][index2].id },
                 }"
               ></router-link>
-              {{ movie.title }} {{ moviesChunked[index1][index2].id }}
+              {{ movie.title }}
             </p>
           </div>
           <div>

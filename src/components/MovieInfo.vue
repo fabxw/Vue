@@ -38,10 +38,8 @@
             <span> {{ time(this.movie.runtime) }}</span>
           </div>
           <div id="overview">
-            <strong>Sinopse</strong>
-          </div>
-          <div>
-            <p id="overview">{{ this.movie.overview }}</p>
+            <strong> Sinopse</strong>
+            <p>{{ this.movie.overview }}</p>
           </div>
         </div>
       </article>
@@ -142,6 +140,7 @@ export default {
 #overview {
   text-align: initial;
   margin-right: 25%;
+  margin-top: 3%;
 }
 
 #overview > strong {

@@ -33,9 +33,9 @@
 
             <span v-for="(genre, index) in this.movie.genres" :key="index">
               {{ genre.name }}
-              <strong> &#183; </strong>
+              <strong v-if="movie.genres.length != index + 1"> &#183;</strong>
             </span>
-            <span> {{ time(this.movie.runtime) }}</span>
+            <span> — {{ time(this.movie.runtime) }}</span>
           </div>
           <div id="overview">
             <strong> Sinopse</strong>
@@ -51,10 +51,10 @@
 import axios from "axios";
 import MenuBar from "./MenuBar.vue";
 export default {
+  name: "info",
   components: {
     MenuBar,
   },
-  name: "MovieInfo",
 
   data() {
     return {
@@ -72,13 +72,14 @@ export default {
       },
 
       info: {
-        debug: false,
         id: 0,
       },
     };
   },
 
   created: function () {
+    //this.$router.push({ name: "cards", params: { product: "productdata" } });
+
     this.info.id = this.$route.params.id;
 
     axios
@@ -88,8 +89,6 @@ export default {
           "?api_key=a05753df84a5d116151e44fa402b53ba&language=pt-BR"
       )
       .then((res) => {
-        console.log(res.data);
-
         this.movie.title = res.data.title;
         this.movie.poster_path = res.data.poster_path;
         this.movie.overview = res.data.overview;
@@ -99,8 +98,6 @@ export default {
         this.movie.date = res.data.release_date;
         this.movie.genres = res.data.genres;
         this.movie.runtime = res.data.runtime;
-
-        console.log(this.movie.runtime);
       });
   },
 

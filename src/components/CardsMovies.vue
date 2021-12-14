@@ -1,4 +1,4 @@
-<template>
+Vetur: show doctor info<template>
   <div>
     <div
       class="columns"
@@ -28,13 +28,16 @@
         </div>
       </div>
     </div>
+    <div :infom="this.movie" />
   </div>
 </template>
 
 <script>
 //import MovieInfo from "./MovieInfo";
 
+import axios from "axios";
 export default {
+  name: "cards",
   components: {
     //   MovieInfo,
   },
@@ -43,9 +46,29 @@ export default {
     urlBase: String,
   },
 
+  data() {
+    return {
+      movie: Array,
+    };
+  },
+
   methods: {
     info: function (msg) {
       this.$router.push("/info/" + msg);
+
+      console.log("dos cards");
+
+      axios
+        .get(
+          "https://api.themoviedb.org/3/movie/" +
+            msg +
+            "?api_key=a05753df84a5d116151e44fa402b53ba&language=pt-BR"
+        )
+        .then((res) => {
+          console.log(res.data);
+          this.movie = res.data;
+        });
+
       //console.log(msg);
     },
   },

@@ -14,8 +14,8 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a @click="home" class="navbar-item"> Home </a>
-          <!--
+          <!-- <a @click="home" class="navbar-item"> Home </a>
+         
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link"> Categorias </a>
 
